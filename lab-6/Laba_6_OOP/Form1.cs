@@ -282,6 +282,74 @@ class CCircle : Object
 
 }
 
+class Square : Object
+{
+    protected int width;
+
+    public Square(int x_1, int y_1, PictureBox picturebox1) : base(x_1, y_1,picturebox1)
+    {
+        this.width = 100;
+    }
+
+    public override bool Selected(int x_1, int y_1)
+    {
+        if ((Math.Abs(x_1 - this.x) + Math.Abs(y_1 - this.y)) < this.width)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    public override void Paint(PictureBox picturebox1, Graphics g)
+    {
+        Pen  blackPen = new Pen(this.color, active?3:1);
+
+        Rectangle rect = new Rectangle(this.x - (this.width/2), this.y - (this.width / 2), this.width, this.width);
+        g.DrawRectangle(blackPen, rect);
+    }
+
+    protected override void changes_accepted(int dx, int dy, int new_size)
+    {
+        if(((this.y + new_size/2) < 440)&&((this.y - new_size/2)>0)&&((this.x - new_size/2) > 0)&&((this.x + new_size/2) < 910))
+                this.width = new_size;
+
+        if(dy > 0)
+        {
+            if ((this.y + width / 2 + dy) < picturebox1.Height - dy)
+                this.y = this.y + dy;
+        }
+        else
+        {
+            if ((this.y - width / 2 + dy) > dy)
+                this.y = this.y + dy;
+        }
+
+        if(dx > 0)
+        {
+            if ((this.x + width / 2 + dx) < picturebox1.Width - dx)
+                this.x = this.x + dx;
+        }
+        else
+        {
+            if ((this.x - width / 2 + dx) > dx)
+                this.x = this.x + dx;
+        }
+    }
+
+    public override void resize(int new_size)
+    {
+        changes_accepted(0,0,new_size);
+    }
+
+    public override void move(int dx, int dy)
+    {
+        changes_accepted(dx,dy,this.width);
+    }
+
+}
 
 
 
