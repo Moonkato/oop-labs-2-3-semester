@@ -35,6 +35,67 @@ public:
 
 };
 
+class car: public ground_vehicle{
+protected:
+    string engine_type;
+    string car_brand;
+    int amount_of_doors;
+
+public:
+    car() : ground_vehicle(), engine_type("Gas_engine"),car_brand("Lada"),amount_of_doors(4){
+        cout << "Конструктор по умолчанию класса Car: " << endl;
+        cout << "engine`s type: " << engine_type << ", car brand: " << car_brand << ", amount of doors: " << amount_of_doors <<  endl;
+        cout << "\n";
+    }
+    car(int number_of_wheels,string color, string engine_type,string car_brand,int amount_of_doors) : ground_vehicle(number_of_wheels,color), engine_type(engine_type),car_brand(car_brand),amount_of_doors(amount_of_doors){
+        cout << "Конструктор c параметрами класса Car: " << endl;
+        cout << "engine`s type: " << this -> engine_type << ", car brand: " << this -> car_brand << ", amount of doors: " << this -> amount_of_doors <<  endl;
+        cout << "\n";
+    }
+    car(const car &another_car) : ground_vehicle(another_car.number_of_wheels,another_car.color), engine_type(another_car.engine_type),car_brand(another_car.car_brand),amount_of_doors(another_car.amount_of_doors){
+        cout << "Конструктор копирования класса Car: " << endl;
+        cout << "engine`s type: " << engine_type << ", car brand: " << car_brand << ", amount of doors: " << amount_of_doors <<  endl;
+        cout << "\n";
+    }
+    void car_horm(){
+        cout << "``` bib ```" <<endl;
+    }
+
+    ~car(){
+        cout << "Диструктор класса Car" << endl;
+        cout << "engine`s type: " << engine_type << ", car brand: " << car_brand << ", amount of doors: " << amount_of_doors <<  endl;
+        cout << "\n";
+    }
+};
+
+class baggage: public ground_vehicle{
+private:
+    string handle_material;
+
+public:
+    baggage(): ground_vehicle(), handle_material("Metal"){
+        cout << "Конструктор по умолчанию класса telega: " << endl;
+        cout << "handle material: " << handle_material << endl;
+        cout << "\n";
+    }
+    baggage(int number_of_wheels,string color, string handle_material) : ground_vehicle(number_of_wheels,color), handle_material(handle_material){
+        cout << "Конструктор c параметрами класса telega: " << endl;
+        cout << "handle material: " << this -> handle_material << endl;
+        cout << "\n";
+    }
+    baggage(const baggage &another_telega) : ground_vehicle(another_telega.number_of_wheels,another_telega.color), handle_material(another_telega.handle_material){
+        cout << "Конструктор копирования класса telega: " << endl;
+        cout << "handle material: " <<  handle_material << endl;
+        cout << "\n";
+    }
+
+    ~baggage(){
+        cout << "Диструктор класса telega" << endl;
+        cout << "handle material: " <<  handle_material << endl;
+        cout << "\n";
+    }
+};
+
 
 int main() {
     {
@@ -58,5 +119,39 @@ int main() {
     cout << "\n";
     cout << "\n";
 
+    {
+        cout << "Статистическое создание объектов класса car: " << endl;
+        car car_4;
+        car car_5(4,"White","Disel","Toyota",4);
+        car car_6 = car(car_5);
+
+        car_5.go_straight();
+        car_5.car_horm();
+        cout << "\n";
+    }
+    cout << "Динамическое создание объектов класса car: " << endl;
+    car *car_4 = new car;
+    car *car_5 = new car(4,"White","Disel","Toyota",4);
+    car *car_6 = new car(*car_5);
+
+    delete car_4;
+    delete car_5;
+    delete car_6;
+
+    cout << "\n";
+    cout << "\n";
+    cout << "\n";
+    cout << "\n";
+
+    baggage b_1(8,"Brown","strong_metal");
+    car car_1 = car(12,"Gray","Disel","KAMAZ",4);
+
+    cout << "\n";
+    cout << "\n";
+    cout << "\n";
+    cout << "\n";
+
+
+    
     return 0;
 }
