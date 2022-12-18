@@ -212,8 +212,38 @@ void in3 (ground_vehicle &veh) {
 }
 
 
+ground_vehicle func1() {
+    printf ("inside function func1 \n") ;
+    ground_vehicle veh;
+    return veh;
+}
 
+ground_vehicle* func2() { //уничтожется локальный объект
+    printf ("inside function func2 \n") ;
+    ground_vehicle veh;
+    return &veh;
+};
+ground_vehicle& func3() {
+    printf ("inside function func3 \n");
+    ground_vehicle veh;
+    return  veh;
+};
+ground_vehicle func4() {
+    printf ("inside function func4 \n") ;
+    ground_vehicle* veh = new ground_vehicle;
+    return *veh;
+}
 
+ground_vehicle* func5() {
+    printf ("inside function func5 \n") ;
+    ground_vehicle* veh = new ground_vehicle;
+    return veh;
+};
+ground_vehicle& func6() {
+    printf ("inside function func6 \n");
+    ground_vehicle* veh = new ground_vehicle;
+    return  *veh;
+};
 
 
 
@@ -327,6 +357,37 @@ int main() {
     cout << "3 func" << endl;
     in3(*car_1);
 
+
+    cout << "-----------------------\n";
+    cout << "Function with getting" << endl;
+    cout << "-----------------------\n";
+
+    cout << "\n" << endl;
+    cout << "Func 1" << endl;
+    ground_vehicle vehic_1 = func1();
+
+    cout << "\n" << endl;
+    cout << "Func 2" << endl;
+    ground_vehicle* vehic_2 = func2();
+
+    cout << "\n" << endl;
+    cout << "Func 3" << endl;
+    ground_vehicle &vehic_3 = func3();
+
+    cout << "\n" << endl;
+    cout << "Func 4" << endl;
+    ground_vehicle vehic_4 = func4();
+
+    cout << "\n" << endl;
+    cout << "Func 5" << endl;
+    ground_vehicle* vehic_5 = func5();
+
+    cout << "\n" << endl;
+    cout << "Func 6" << endl;
+    ground_vehicle vehic_6 = func6();
+
+
+  
 
     return 0;
 }
