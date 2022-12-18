@@ -247,6 +247,22 @@ ground_vehicle& func6() {
 
 
 
+void test_ptr(unique_ptr<ground_vehicle> veh){
+    printf ("inside function test_ptr \n");
+    veh->go_straight();
+}
+
+void test_2_ptr(unique_ptr<ground_vehicle>& veh){
+    printf ("inside function test_2_ptr \n");
+    veh->go_straight();
+}
+
+void test_3_ptr(shared_ptr<ground_vehicle>& veh){
+    printf ("inside function test_2_ptr \n");
+    veh->go_straight();
+}
+
+
 int main() {
 
     cout << "Examples: " << endl;
@@ -387,7 +403,35 @@ int main() {
     ground_vehicle vehic_6 = func6();
 
 
-  
+    cout << "UNIQ AND SHARED" << endl;
+
+    unique_ptr<ground_vehicle> unq(new ground_vehicle());
+    unique_ptr uniquePtr = make_unique<car>();
+
+    unq ->go_straight();
+    uniquePtr ->car_horm();
+
+    test_ptr(move(unq));
+    test_2_ptr(unq);
+
+
+    car *uniq_car_ptr = uniquePtr.get();
+    uniq_car_ptr->car_horm();
+
+    shared_ptr shr_1 = make_shared<ground_vehicle>();
+    shared_ptr shr_2 = make_shared<ground_vehicle>();
+
+    test_3_ptr(shr_1);
+
+    shr_1 = shr_2;
+
+    bicycle *bike = new bicycle;
+
+    if(bike->isa("bicycle")){
+        cout << "Yes" << endl;
+    }else{
+        cout << "No" << endl;
+    }
 
     return 0;
 }
