@@ -96,6 +96,41 @@ public:
     }
 };
 
+class truck{
+private:
+    baggage *b;
+    car c; // во втором вызове вызовится по умолчанию но хз почему
+
+public:
+    truck(){
+        cout << "Конструктор по умолчанию класса truck: " << endl;
+        this -> b = new baggage();
+        cout << "\n";
+    }
+    truck(baggage *bag,car &own_car): c(own_car){
+        cout << "Конструктор с параметрами класса truck: " << endl;
+        this -> b = new baggage(*bag);
+        cout << "\n";
+    }
+    truck(const truck &another_truck): c(another_truck.c){
+        cout << "Конструктор копирования класса truck: " << endl;
+        this -> b = new baggage(*(another_truck.b));
+        cout << "\n";
+    }
+
+    void Cargo_loading(){
+        cout << "``` Звуки погрузки груза в грузовую машину ```" << endl;
+    }
+
+    ~truck(){
+        cout << " Диструктор класса truck " << endl;
+        delete b;
+    }
+};
+
+void Cargo_unloading(const truck &my_truck){
+    cout << "``` Звуки выгрузки груза в грузовую машину ```" << endl;
+}
 
 int main() {
     {
@@ -150,6 +185,37 @@ int main() {
     cout << "\n";
     cout << "\n";
     cout << "\n";
+
+    {
+        cout << "Статическое создание объектов класса truck:" << endl;
+        truck truck_1;
+        truck truck_3 = truck(&b_1,car_1);
+        truck truck_4 = truck(truck_3);
+
+        truck_4.Cargo_loading();
+        Cargo_unloading(truck_4);
+        cout << "\n";
+    }
+
+    cout << "Динамическое создание объектов класса truck: " << endl;
+    truck *truck_4 = new truck;
+    truck *truck_5 = new truck(&b_1,car_1);
+    truck *truck_6 = new truck(*truck_5);
+
+    delete truck_4;
+    delete truck_5;
+    delete truck_6;
+
+    cout << "\n";
+    cout << "\n";
+    cout << "\n";
+    cout << "\n";
+
+    cout << "Тестируем помещение объектов в переменные различных типов: " << endl;
+
+    ground_vehicle *car_10 =  new car(4,"Black","Gas engine","Opel",4);
+
+
 
 
     
