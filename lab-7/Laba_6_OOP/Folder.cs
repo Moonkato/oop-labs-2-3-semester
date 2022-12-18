@@ -144,7 +144,6 @@ namespace Laba_6_OOP
             }
         }
 
-       
 
         public void del_object_from_group(int x_1, int y_1)
         {
@@ -169,7 +168,7 @@ namespace Laba_6_OOP
             }
         }
 
-        
+  
 
         public void probeg(int x_1, int x_2)
         {
@@ -304,7 +303,34 @@ namespace Laba_6_OOP
 
         }
 
-       
+        public override void set_borders()
+        {
+            this.lower_border = 0;
+            this.upper_border = 10000;
+            this.right_border = 0;
+            this.left_border = 10000;
+
+            for (int i = 0; i < folder_size; i++)
+            {
+                if (objects[i] != null)
+                {
+                    if (objects[i].isActive())
+                    {
+                        objects[i].set_borders();
+
+                        if (objects[i].right_border > this.right_border)
+                            right_border = objects[i].right_border;
+                        if (objects[i].left_border < this.left_border)
+                            left_border = objects[i].left_border;
+                        if (objects[i].upper_border < this.upper_border)
+                            upper_border = objects[i].upper_border;
+                        if (objects[i].lower_border > this.lower_border)
+                            lower_border = objects[i].lower_border;
+                    }
+                }
+            }
+        }
+
 
         public override void resize(int new_size)
         {
@@ -319,7 +345,8 @@ namespace Laba_6_OOP
                 }
             }
         }
-      
+        
+
         public override void move(int dx, int dy)
         {
             int prev_x;
@@ -373,8 +400,7 @@ namespace Laba_6_OOP
             }
         }
 
-      
-
+       
         public CShape get_object(int index)
         {
             if (check_by_index(index) == true)
