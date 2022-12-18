@@ -1,0 +1,3 @@
+/Users/glebalektorov/Library/CloudStorage/OneDrive-ФГБОУВОУГАТУ/УГАТУ/ООП/OOP_LAB_2/cmake-build-debug/CMakeFiles/OOP_LAB_1.dir
+/Users/glebalektorov/Library/CloudStorage/OneDrive-ФГБОУВОУГАТУ/УГАТУ/ООП/OOP_LAB_2/cmake-build-debug/CMakeFiles/edit_cache.dir
+/Users/glebalektorov/Library/CloudStorage/OneDrive-ФГБОУВОУГАТУ/УГАТУ/ООП/OOP_LAB_2/cmake-build-debug/CMakeFiles/rebuild_cache.dir
