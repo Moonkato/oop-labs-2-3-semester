@@ -144,6 +144,19 @@ namespace Laba_6_OOP
             }
         }
 
+        public void add_object_to_group_2(CShape group)
+        {
+            for (int i = 0; i < folder_size; i++)
+            {
+                if (objects[i] != null)
+                    if (objects[i].isActive())
+                    {
+                        (group as Folder).add_object(objects[i]);
+                        (group as Folder).set_borders();
+                        objects[i] = null;
+                    }
+            }
+        }
 
         public void del_object_from_group(int x_1, int y_1)
         {
@@ -168,7 +181,28 @@ namespace Laba_6_OOP
             }
         }
 
-  
+        public void del_object_from_group_2()
+        {
+            for (int i = 0; i < folder_size; i++)
+            {
+                if (objects[i] != null)
+                {
+                    if (objects[i].isActive())
+                    {
+                        for (int j = 0; j < (objects[i] as Folder).folder_size; j++)
+                        {
+                            CShape element;
+                            element = (objects[i] as Folder).get_object(j);
+                            add_object(element);
+                            (objects[i] as Folder).delete_object(j);
+                        }
+                        objects[i] = null;
+                        break;
+                    }
+
+                }
+            }
+        }
 
         public void probeg(int x_1, int x_2)
         {
@@ -345,7 +379,27 @@ namespace Laba_6_OOP
                 }
             }
         }
-        
+        void general_rec(ref int dx, ref int dy)
+        {
+            set_borders();
+
+            int x_1 = ((this.right_border - this.left_border) / 2) + this.left_border;
+            int y_1 = ((this.lower_border - this.upper_border) / 2) + this.upper_border;
+            CShape Rectangle_to_move = new My_Rectangle(x_1, y_1, picturebox1);
+            (Rectangle_to_move as My_Rectangle).length = this.right_border - this.left_border;
+            (Rectangle_to_move as My_Rectangle).width = this.lower_border - this.upper_border;
+            //          Graphics g = picturebox1.CreateGraphics();
+            //          Rectangle_to_move.Paint(picturebox1, g);
+            Rectangle_to_move.move(dx, dy);
+            //           System.Threading.Thread.Sleep(100);
+
+            if ((Rectangle_to_move as My_Rectangle).x == x_1)
+                dx = 0;
+
+            if ((Rectangle_to_move as My_Rectangle).y == y_1)
+                dy = 0;
+
+        }
 
         public override void move(int dx, int dy)
         {
@@ -400,7 +454,6 @@ namespace Laba_6_OOP
             }
         }
 
-       
         public CShape get_object(int index)
         {
             if (check_by_index(index) == true)
