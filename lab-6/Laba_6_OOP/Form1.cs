@@ -212,12 +212,78 @@ public class Object
 }
 
 
+class CCircle : Object
+{
+    protected int radius;
 
+    public CCircle(int x_1, int y_1, PictureBox picturebox1) : base(x_1, y_1,picturebox1)
+    {
+        this.radius = 100;
+    }
 
+    public override bool Selected(int x_1, int y_1)
+    {
+        if ((Math.Pow((x_1 - this.x),2) + Math.Pow((y_1 - this.y),2)) < this.radius/2 * this.radius/2)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
 
+    public override void Paint(PictureBox picturebox1, Graphics g)
+    {
+        Pen  blackPen = new Pen(this.color, active?3:1);
 
+        Rectangle rect = new Rectangle(this.x - (this.radius / 2), this.y - (this.radius / 2), this.radius, this.radius);
+        g.DrawEllipse(blackPen, rect);
+    }
+
+    protected override void changes_accepted(int dx,int dy,int new_size)
+    {
+        if(((this.y + new_size/2) < picturebox1.Width)&&((this.y - new_size/2)>0)&&((this.x - new_size/2) > 0)&&((this.x + new_size/2) < picturebox1.Height))
+          this.radius = new_size;
+
+        if (dy > 0)
+        {
+            if((this.y + radius/2 + dy) < picturebox1.Height - dy)
+                 this.y = this.y + dy;
+        }
+        else
+        {
+            if((this.y - radius/2 + dy) > 0)
+                 this.y = this.y + dy;
+        }
+
+        if (dx < 0)
+        {
+            if((this.x - radius/2  + dx) > 0)
+                this.x = this.x + dx;
+        }
+        else
+        {
+
+            if((this.x + radius/2 + dx) < picturebox1.Width - dx)
+            this.x = this.x + dx;
+        }
+    }
+
+    public override void resize(int new_size)
+    {
+        changes_accepted(0,0,new_size);
+    }
+
+    public override void move(int dx, int dy)
+    {
+        changes_accepted(dx,dy,this.radius);
+    }
 
 }
+
+
+
 
 public class Folder
 {
