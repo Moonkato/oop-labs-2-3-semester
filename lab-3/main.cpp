@@ -266,7 +266,64 @@ int main() {
 
     objects.add_object(object_4);
 
-   
+    int range_size = 1000;
+
+
+    for(int i = 4; i < range_size ; i++){
+        int random_number = (rand()%range_size + 1);
+
+        cout << "RANDOM NUMBER IS " << random_number << endl;
+
+        if(random_number % 2 == 0){
+
+            object* something = new Cat("White","British");
+            cout << "Кошка была добавлена" << endl;
+            objects.set_object(i,something);
+            cout << "\n" << endl;
+
+        }else if(random_number % 3 == 0){
+
+            object* something = new Dog("White","British");
+            cout << "Собака была добавлена" << endl;
+            objects.set_object(i,something);
+            cout << "\n" << endl;
+
+        }else if(random_number % 7 == 0){
+
+            object* something = new ground_vehicle();
+            cout << "Машина была добавлена" << endl;
+            objects.set_object(i,something);
+            cout << "\n" << endl;
+
+        }else if(random_number % 5 == 0){
+                objects.delete_object(random_number);
+                cout << "Объект удален" << endl;
+                cout << "\n" << endl;
+
+        }else{
+
+            bool check = objects.check_by_index(random_number);
+            cout << "Check point 1 " << endl;
+            if(check == true){
+                cout << "Check point 2 " << endl;
+                object* something = objects.get_object(random_number);
+                cout << "Check point 3 " << endl;
+                cout << objects.folder_size << endl;
+                cout << random_number << endl;
+                (*something).name_yourself();
+
+                // не nullptr
+                // не выход за пределы
+                // что это
+                cout << "Check point 4 " << endl;
+            }else{
+                cout << "There is no element on " << random_number << " position " << endl;
+            }
+            cout << "\n" << endl;
+        }
+    }
+
+    objects.show();
 
 
     return 0;
