@@ -144,7 +144,20 @@ namespace Laba_4_1_OOP
                 treeView1.Nodes.Remove(nodes[0]);
         }
 
-      
+        private void processNode(TreeNode tn, CShape o)
+        {
+            if (o is CMyFolder)
+            {
+                for (int i = 0; i < (o as CMyFolder).folder_size; i++)
+                {
+                    CShape oi = (o as CMyFolder).get_object(i);
+                    TreeNode t = new TreeNode(oi.GetType().Name);
+                    t.Name = oi.GetType().Name + oi.GetHashCode();
+                    tn.Nodes.Add(t);
+                    processNode(t, oi);
+                }
+            }
+        }
 
         private void button_group_Click(object sender, EventArgs e)
         {
@@ -274,5 +287,42 @@ namespace Laba_4_1_OOP
         }
 
 
+        private void treeView1_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
+        {
+            (folder_1 as CMyFolder).deact_all();
+
+            for(int i = 0;i < (folder_1 as Folder).folder_size; i++)
+            {
+                CShape smth = (folder_1 as Folder).get_object(i);
+
+                List<String> bottoms = new List<String> { };
+
+                if(smth is CMyFolder)
+                {
+                    (smth as CMyFolder).get_bottoms(bottoms);
+                }
+
+                if(smth != null)  
+                    if(smth is CMyFolder)
+                    {
+                        if ((e.Node.Name == smth.GetType().Name + smth.GetHashCode())||(bottoms.Contains(e.Node.Name)))
+                            smth.activate();
+                        else
+                            smth.deactivate();
+                    }
+                    else
+                    {
+                        if (e.Node.Name == smth.GetType().Name + smth.GetHashCode())
+                            smth.activate();
+                        else
+                            smth.deactivate();
+                    }
+            }
+
+            Graphics g = pictureBox1.CreateGraphics();
+            this.ActiveControl = null;
+            g.Clear(Color.White);
+            folder_1.Paint(pictureBox1, g);
+        }
     }
 }
