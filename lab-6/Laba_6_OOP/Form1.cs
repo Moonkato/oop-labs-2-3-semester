@@ -352,6 +352,88 @@ class Square : Object
 }
 
 
+class Triangle : Object
+{
+    protected int dist_to_pea;
+
+    public Triangle(int x_1, int y_1, PictureBox picturebox1) : base(x_1, y_1,picturebox1)
+    {
+        this.dist_to_pea = 50;
+    }
+
+    public override bool Selected(int x_1, int y_1)
+    {
+        if ((Math.Pow((x_1 - this.x),2) + Math.Pow((y_1 - this.y),2)) < this.dist_to_pea/2 * this.dist_to_pea)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    public override void Paint(PictureBox picturebox1, Graphics g)
+    {
+        Pen  blackPen = new Pen(this.color, active?3:1);
+
+        PointF point1 = new PointF(this.x,  this.y - this.dist_to_pea);
+        PointF point2 = new PointF(this.x + dist_to_pea,  this.y + this.dist_to_pea);
+        PointF point3 = new PointF(this.x - dist_to_pea,  this.y + this.dist_to_pea);
+
+        PointF[] curvePoints =
+        {
+            point1,
+            point2,
+            point3,
+        };
+
+        g.DrawPolygon(blackPen, curvePoints);
+
+    }
+
+    protected override void changes_accepted(int dx, int dy, int new_size)
+    {
+        if(((this.y + new_size) < picturebox1.Width - 30)&&((this.y - new_size)>30)&&((this.x - new_size) > 30)&&((this.x + new_size) < picturebox1.Height - 30))
+                this.dist_to_pea = new_size;
+
+        if(dy > 0)
+        {
+            if ((this.y + dist_to_pea + dy) < picturebox1.Height)
+                this.y = this.y + dy;
+        }
+        else
+        {
+            if ((this.y - dist_to_pea  + dy) > 0)
+                this.y = this.y + dy;
+        }
+
+        if(dx > 0)
+        {
+            if ((this.x + dist_to_pea  + dx) < picturebox1.Width)
+                this.x = this.x + dx;
+        }
+        else
+        {
+            if ((this.x - dist_to_pea  + dx) > 0)
+                this.x = this.x + dx;
+        }
+
+    }
+
+    public override void resize(int new_size)
+    {
+        changes_accepted(0,0,new_size);
+    }
+
+    public override void move(int dx, int dy)
+    {
+        changes_accepted(dx,dy,this.dist_to_pea);
+    }
+
+
+
+}
 
 public class Folder
 {
