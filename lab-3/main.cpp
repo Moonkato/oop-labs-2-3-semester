@@ -17,6 +17,122 @@ public:
     }
 };
 
+class folder{
+public:
+    object **objects;
+    int folder_size;
+
+private:
+    void increase_array(object** old_objects,int array_size,int new_array_size){
+
+        object** new_objects = new object*[new_array_size];
+
+        for (int i = 0; i < new_array_size; i++)
+            if(i<array_size)
+                new_objects[i] = old_objects[i];
+            else
+                new_objects[i] = nullptr;
+
+        this -> folder_size = new_array_size;
+        this ->objects = new_objects;
+        delete[] old_objects;
+    }
+public:
+    folder(int folder_size){
+        cout << "Конструктор по умолчанию класса folder" << endl;
+        this -> folder_size = folder_size;
+        objects = new object*[folder_size];
+
+        for(int i = 0;i<folder_size;i++){
+            objects[i] = nullptr;
+        }
+    }
+
+    bool check_by_index(int index){
+        if(index < folder_size) {
+            if (objects[index] == nullptr) {
+                return false;
+            } else {
+                return true;
+            }
+        }else{
+            return false;
+        }
+    }
+
+    void set_object(int index, object *something){
+            if(index >= this->folder_size){
+                increase_array(objects,folder_size,index + 1);
+                objects[index] = something;
+            }else
+            {
+                bool checker;
+                checker = check_by_index(index);
+
+                if(checker == false)
+                    objects[index] = something;
+                else
+                    add_object(something);
+            }
+    }
+
+
+    void add_object(object *something){
+        bool mesto = false;
+        for(int i=0; i<folder_size; i++){
+            if(objects[i]== nullptr){
+                mesto = true;
+                objects[i] = something;
+                cout << "Элемент был добавлен в позицию " << i << endl;
+            }
+        }
+        if(mesto == false){
+            set_object(folder_size,something);
+            cout << "Элемент был добавлен в позицию " << folder_size  << endl;
+        }
+    }
+
+
+    object* get_object (int index){
+        if(check_by_index(index) == true)
+            return objects[index];
+        else
+            return nullptr;
+    }
+
+    void delete_object(int index){
+        if(check_by_index(index) == true)
+            objects[index] = nullptr;
+        else
+            return;
+    }
+
+    object* get_first_object(){
+        if(check_by_index(0) == true)
+            return objects[0];
+        else
+            return nullptr;
+    }
+    object* get_last_object(){
+        if(check_by_index(folder_size-1) == true)
+            return objects[folder_size-1];
+        else
+            return nullptr;
+    }
+
+    void show(){
+        for(int i=0; i < folder_size; i++){
+            if(check_by_index(i) == true){
+                object* something = get_object(i);
+                (*something).name_yourself();
+            }
+        }
+    }
+
+    ~folder(){
+        cout << "Хранилище было удалено" << endl;
+    }
+};
 
 class Animal : public object{
 public :
@@ -124,7 +240,8 @@ public:
 
 
 int main() {
-    
+    int folder_size = 1;
+    folder objects(folder_size);
 
     object* object_1 = new Cat("White","British");
     object* object_2 = new Dog("Black","Bulderer");
@@ -132,8 +249,24 @@ int main() {
     object* object_4 = new Dog("White","British");
     object* object_5 = new ground_vehicle();
 
+    objects.set_object(0,object_1);
+    objects.set_object(1,object_2);
+    objects.set_object(2,object_3);
+    objects.set_object(3,object_5);
 
-  
+    object* something_1 = objects.get_object(1);
+    (*something_1).name_yourself();
+
+    object* something_2 = objects.get_first_object();
+    (*something_2).name_yourself();
+
+    object* something_3 = objects.get_last_object();
+    (*something_3).name_yourself();
+
+
+    objects.add_object(object_4);
+
+   
 
 
     return 0;
