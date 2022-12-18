@@ -193,6 +193,30 @@ public:
     }
 };
 
+void in1 (ground_vehicle veh) {
+
+    printf ("inside function in1 \n") ;
+
+}
+
+void in2(ground_vehicle *veh) {
+
+    printf ("inside function in2 \n") ;
+
+}
+
+void in3 (ground_vehicle &veh) {
+
+    printf ("inside function in3 \n") ;
+
+}
+
+
+
+
+
+
+
 int main() {
 
     cout << "Examples: " << endl;
@@ -273,6 +297,35 @@ int main() {
     for(int i=0; i<10; i++){
         storage[i] -> open_trunk();
     }
+
+
+    cout << "FUNCTIONS" << endl;
+
+    ground_vehicle*  veh_1 = new ground_vehicle;
+
+    cout << "1 func" << endl;
+    in1(*veh_1);
+
+    cout << "2 func" << endl;
+    in2(veh_1);
+
+    cout << "3 func" << endl;
+    in3(*veh_1);
+
+    cout << "-----------------------\n";
+    cout << "AND NOW LETS TEST CAR" << endl;
+    cout << "-----------------------\n";
+
+    car* car_1 = new car;
+
+    cout << "1 func" << endl;
+    in1(*car_1);
+
+    cout << "2 func" << endl;
+    in2(car_1);
+
+    cout << "3 func" << endl;
+    in3(*car_1);
 
 
     return 0;
