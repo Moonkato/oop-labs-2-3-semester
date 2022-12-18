@@ -28,7 +28,12 @@ namespace Laba_4_2_OOP
 
         private void Form1_FormClosed_1(object sender, FormClosedEventArgs e)
         {
-     
+            Properties.Settings.Default.C = model.get_value_3();
+            Properties.Settings.Default.Save();
+            Properties.Settings.Default.B = model.get_value_2();
+            Properties.Settings.Default.Save();
+            Properties.Settings.Default.A = model.get_value_1();
+            Properties.Settings.Default.Save();
         }
 
         private void textBox1_KeyDown(object sender, KeyEventArgs e)
@@ -126,6 +131,12 @@ namespace Laba_4_2_OOP
         private int value_3;
         public System.EventHandler observes;
 
+        public Model()
+        {
+            this.value_3 =  (int)Properties.Settings.Default.C;
+            this.value_2 =  (int)Properties.Settings.Default.B;
+            this.value_1 = (int)Properties.Settings.Default.A;
+        }
 
         public void update()
         {
