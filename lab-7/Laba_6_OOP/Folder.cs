@@ -454,6 +454,75 @@ namespace Laba_6_OOP
             }
         }
 
+        public override CShape load(FileInfo fileInf, int hod, StreamReader sr)
+        {
+            loadShapes(fileInf, hod, sr);
+            return null;
+        }
+
+        public virtual CShape createShape(string code)
+        {
+            return null;
+        }
+
+        public override void save(FileInfo fileInf, StreamWriter sw)
+        {
+            string name = "F";
+            sw.WriteLine(name);
+            string code = folder_size.ToString();
+            sw.WriteLine(code);
+
+            for (int i = 0; i < folder_size; i++)
+            {
+                if (objects[i] != null)
+                {
+                    objects[i].save(fileInf, sw);
+                }
+            }
+        }
+
+        public void loadShapes(FileInfo fileInf, int hod, StreamReader sr)
+        {
+            int count = 0;
+
+            string number = sr.ReadLine();
+
+            count = Convert.ToInt32(number);
+
+            CShape[] objects = new CShape[count];
+
+            for (int i = 0; i < count; i++)
+            {
+                string code = sr.ReadLine();
+
+                if (code != "F")
+                {
+                    CShape shape = createShape(code);
+
+                    objects[i] = shape;
+
+                    if (objects[i] != null)
+                    {
+                        CShape smth = shape.load(fileInf, hod, sr);
+                        smth.picturebox1 = this.picturebox1;
+                        objects[i] = smth;
+                        hod = hod + 2;
+                    }
+                }
+                else
+                {
+                    CShape shape = createShape(code);
+                    shape.picturebox1 = this.picturebox1;
+                    shape.load(fileInf, hod, sr);
+                    hod = hod + 1 + (shape as CMyFolder).folder_size;
+                    objects[i] = shape;
+                }
+            }
+
+            this.folder_size = count;
+            this.objects = objects;
+        }
+
         public CShape get_object(int index)
         {
             if (check_by_index(index) == true)
