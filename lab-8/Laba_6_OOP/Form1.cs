@@ -21,7 +21,7 @@ using System.Runtime.Remoting.Metadata.W3cXsd2001;
 
 namespace Laba_4_1_OOP
 {
-    public partial class Form1 : Form
+    public partial class Form1 : Form, IMyObserver
     {
         CShape folder_1 = new CMyFolder(0);
         CShape group = new CMyFolder(0);
@@ -105,7 +105,46 @@ namespace Laba_4_1_OOP
             folder_1.Paint(pictureBox1, g);
         }
 
-       
+        public void UpdateCreate_with_cnt(CShape a)
+        {
+            TreeNode node = new TreeNode(a.GetType().Name + (folder_1 as CMyFolder).cnt);
+            node.Name = a.GetType().Name + a.GetHashCode();
+            if (a is CMyFolder)
+                processNode(node, a);
+            treeView1.Nodes.Add(node);
+        }
+
+        public void UpdateSelect(CShape a)
+        {
+            TreeNode[] t = treeView1.Nodes.Find(a.GetType().Name + a.GetHashCode(), true);
+            if (a.isActive())
+            {
+                t[0].Checked = true;
+                t[0].BackColor = Color.Blue;
+            }
+            else
+            {
+                t[0].Checked = false;
+                t[0].BackColor = Color.White;
+            }
+        }
+
+
+
+        public void UpdateDelete_with_cnt(CShape a)
+        {
+            TreeNode[] nodes = treeView1.Nodes.Find(a.GetType().Name + a.GetHashCode(), true);
+            if (nodes.Length > 0)
+                treeView1.Nodes.Remove(nodes[0]);
+        }
+        public void UpdateDelete_without_cnt(CShape a)
+        {
+            TreeNode[] nodes = treeView1.Nodes.Find(a.GetType().Name + a.GetHashCode(), true);
+            if (nodes.Length > 0)
+                treeView1.Nodes.Remove(nodes[0]);
+        }
+
+      
 
         private void button_group_Click(object sender, EventArgs e)
         {
@@ -233,6 +272,7 @@ namespace Laba_4_1_OOP
                 Graphics g = pictureBox1.CreateGraphics();
             }
         }
+
 
     }
 }
